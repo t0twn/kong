@@ -1,0 +1,50 @@
+x-kong-config:
+  &kong-env
+  KONG_DATABASE: ${KONG_DATABASE:-off}
+  KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong}
+  KONG_PG_HOST: db
+  KONG_PG_USER: ${KONG_PG_USER:-kong}
+  KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
+
+volumes:
+  web_kong_prefix_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  web_kong_tmp_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+
+services:
+  web-kong:
+    image: "${KONG_DOCKER_TAG:-kong:latest}"
+    user: "${KONG_USER:-kong}"
+    environment:
+      <<: *kong-env
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: "${KONG_ADMIN_LISTEN:-0.0.0.0:80,0.0.0.0:443 ssl}"
+      KONG_ADMIN_GUI_LISTEN: "${KONG_ADMIN_GUI_LISTEN:-0.0.0.0:8002}"
+      KONG_ADMIN_GUI_API_URL: "${KONG_ADMIN_GUI_API_URL:-https://api.kong.x.io}"
+      KONG_ADMIN_GUI_URL: "${KONG_ADMIN_GUI_API_URL:-https://kong.x.io}"
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_PREFIX: ${KONG_PREFIX:-/var/run/kong}
+      KONG_DECLARATIVE_CONFIG: "/opt/kong/kong.yaml"
+    secrets:
+      - kong_postgres_password
+    networks:
+      - kong-net
+    healthcheck:
+      test: [ "CMD", "kong", "health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: always
+    read_only: true
+    volumes:
+      - web_kong_prefix_vol:${KONG_PREFIX:-/var/run/kong}
+      - web_kong_tmp_vol:/tmp
+    security_opt:
+      - no-new-privileges

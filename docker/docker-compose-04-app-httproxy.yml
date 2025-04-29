@@ -1,0 +1,12 @@
+services:
+  httproxy:
+    image: "t0twn/httproxy:latest"
+    environment:
+      UPSTREAMS: "${UPSTREAMS:-http://kong:180 https://kong:1443}"
+      LISTEN_PORTS: "${LISTEN_PORTS:-180 1443}"
+      LISTEN_HOST: "${LISTEN_HOST:-0.0.0.0}"
+      HTTPROXY_AUTH_USERNAME: "${HTTPROXY_AUTH_USERNAM:-t0twn}"
+      HTTPROXY_AUTH_PASSWORD: "${HTTPROXY_AUTH_PASSWOR:-t0twnP}"
+    networks:
+      - kong-net
+    restart: always
