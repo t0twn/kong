@@ -1,0 +1,14 @@
+services:
+  xray:
+    image: "ghcr.io/xtls/xray-core:latest"
+    entrypoint: xray
+    command: run -confdir /etc/xray/
+    networks:
+      - kong
+    restart: always
+    volumes:
+      - ./etc/:/etc/xray/:ro
+
+networks:
+  kong:
+    external: true

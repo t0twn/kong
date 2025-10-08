@@ -1,0 +1,21 @@
+services:
+  qbittorrent:
+    image: "t0twn/qbittorrent"
+    user: "99:99"
+    command: --profile=/etc/qBittorrent/
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - QBT_NO_SPLASH=1
+    volumes:
+      - ./etc/:/etc/qBittorrent/:rw
+      - ./data/:/data/qBittorrent/:rw
+    networks:
+      - kong
+    restart: always
+
+networks:
+  kong:
+    external: true

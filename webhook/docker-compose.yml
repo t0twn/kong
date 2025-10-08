@@ -1,0 +1,12 @@
+services:
+  webhook:
+    image: "python:3.11-alpine"
+    tty: true
+    command: sh
+    networks:
+      - kong
+    restart: always
+
+networks:
+  kong:
+    external: true

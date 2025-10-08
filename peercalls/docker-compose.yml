@@ -1,0 +1,15 @@
+services:
+  peercalls:
+    image: "ghcr.io/peer-calls/peer-calls:latest"
+    environment:
+      - PEERCALLS_NETWORK_TYPE=${PEERCALLS_NETWORK_TYPE-sfu}
+      - PEERCALLS_ICE_SERVER_AUTH_TYPE=secret
+      - PEERCALLS_ICE_SERVER_SECRET=$PEERCALLS_ICE_SERVER_SECRET
+      - PEERCALLS_ICE_SERVER_URLS=$PEERCALLS_ICE_SERVER_URLS
+    networks:
+      - kong
+    restart: always
+
+networks:
+  kong:
+    external: true

@@ -1,0 +1,15 @@
+services:
+  coturn:
+    image: "t0twn/coturn"
+    command: --lt-cred-mech --use-auth-secret --static-auth-secret $STATIC_AUTH_SECRET
+      --proc-user=turnserver --proc-group=turnserver
+      --no-multicast-peers --total-quota=300
+      --external-ip $EXTERNAL_IP
+      --realm $REALM
+      # -V
+    network_mode: host
+    restart: always
+
+networks:
+  kong:
+    external: true

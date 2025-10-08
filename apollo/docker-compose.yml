@@ -1,0 +1,19 @@
+version: '2.1'
+
+services:
+  apollo:
+    image: nobodyiam/apollo-quick-start
+    networks:
+      - kong
+    extra_hosts:
+      - "apollo-db:host-gateway"
+    environment:
+      #JAVA_OPTS: '-Xms100m -Xmx1000m -Xmn100m -Xss256k -XX:MetaspaceSize=10m -XX:MaxMetaspaceSize=250m'
+      APOLLO_CONFIG_DB_USERNAME: ${APOLLO_CONFIG_DB_USERNAME}
+      APOLLO_CONFIG_DB_PASSWORD: ${APOLLO_CONFIG_DB_PASSWORD}
+      APOLLO_PORTAL_DB_USERNAME: ${APOLLO_PORTAL_DB_USERNAME}
+      APOLLO_PORTAL_DB_PASSWORD: ${APOLLO_PORTAL_DB_PASSWORD}
+
+networks:
+  kong:
+    external: true

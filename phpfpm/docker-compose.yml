@@ -1,0 +1,13 @@
+services:
+  phpfpm:
+    image: "php:7.4-fpm"
+    user: "99:99"
+    volumes:
+      - ./var/www/html/:/var/www/html/
+    networks:
+      - kong
+    restart: always
+
+networks:
+  kong:
+    external: true

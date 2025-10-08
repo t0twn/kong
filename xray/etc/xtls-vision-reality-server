@@ -1,0 +1,52 @@
+{
+    "log": {
+        "loglevel": "debug"
+    },
+    "inbounds": [
+        {
+            "port": 443, 
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "$xray_clientid",
+                        "flow": "xtls-rprx-vision"
+                    }
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "reality",
+                "realitySettings": {
+                   "target": "$xray_reality_target:443",
+                    "serverNames": [
+                    "$xray_reality_target"
+                    ],
+                    "privateKey": "$xray_privatekey",
+                    "shortIds": [
+                        "",
+                        "00",
+                        "01",
+                        "02"
+                    ]
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls",
+                    "quic"
+                ],
+                "routeOnly": true
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+services:
+  headscale:
+    image: docker.io/headscale/headscale
+    restart: unless-stopped
+    container_name: headscale
+    networks:
+      - kong
+    # ports:
+    #   - "127.0.0.1:8080:8080"
+    #   - "127.0.0.1:9090:9090"
+    volumes:
+      - ./config:/etc/headscale
+      - ./lib:/var/lib/headscale
+      - ./run:/var/run/headscale
+    command: serve
+
+networks:
+  kong:
+    external: true

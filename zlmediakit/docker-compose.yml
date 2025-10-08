@@ -1,0 +1,20 @@
+services:
+  zlmediakit:
+    image: "zlmediakit/zlmediakit:master"
+    networks:
+      - kong
+    ports:
+      - 332:332
+      - 554:554
+      - 1935:1935
+      - 10000:10000
+      - 10000:10000/udp
+      - 8000:8000/udp
+      - 9000:9000/udp
+    restart: always
+    volumes:
+      - ./etc/:/opt/media/conf/
+
+networks:
+  kong:
+    external: true
