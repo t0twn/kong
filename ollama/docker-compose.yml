@@ -1,0 +1,10 @@
+services:
+  ollama:
+    image: ollama/ollama
+    networks:
+      - kong
+    volumes:
+      - ./data:/root/.ollama
+networks:
+  kong:
+    external: true
