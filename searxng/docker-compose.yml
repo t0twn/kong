@@ -1,0 +1,15 @@
+services:
+  searxng:
+    image: docker.io/searxng/searxng:latest
+    restart: unless-stopped
+    networks:
+      - kong
+    volumes:
+      - ./etc/:/etc/searxng/
+      - ./data/:/var/cache/searxng/
+    environment:
+      - GRANIAN_PORT=80
+
+networks:
+  kong:
+    external: true
