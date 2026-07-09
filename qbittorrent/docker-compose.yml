@@ -1,8 +1,8 @@
 services:
   qbittorrent:
     image: "t0twn/qbittorrent"
-    user: "99:99"
-    command: --profile=/etc/qBittorrent/
+    user: "1001:1001"
+    command: --profile=/etc/
     cap_drop:
       - ALL
     security_opt:
@@ -12,6 +12,9 @@ services:
     volumes:
       - ./etc/:/etc/qBittorrent/:rw
       - ./data/:/data/qBittorrent/:rw
+    ports:
+      - "56660:56660/tcp"
+      - "56660:56660/udp"
     networks:
       - kong
     restart: always
