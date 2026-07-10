@@ -1,0 +1,12 @@
+services:
+  media-server:
+    image: "t0twn/media-server"
+    volumes:
+      - /media/:/media/
+    networks:
+      - kong
+    restart: always
+
+networks:
+  kong:
+    external: true
