@@ -3,7 +3,8 @@ services:
     image: 'docker.io/jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     networks:
-      - kong
+      kong:
+        ipv4_address: 172.28.0.100
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
